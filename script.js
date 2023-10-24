@@ -37,7 +37,12 @@ const onChange = debounce(logValue, 300)
 inpuT.addEventListener('keyup', onChange)
 //------------------------------------------------------debounce
 
-
+function clickRemove() {
+    console.log(this)
+    console.log(this.parentNode);
+    const parentElement = this.parentNode
+    parentElement.remove()
+}
 
 
 //------------------------------------------------------fetch1
@@ -45,10 +50,31 @@ function fetchElement(repName, index) {
     fetch(`https://api.github.com/search/repositories?q=${repName}`)
         .then(response => response.json())
         .then(data => {
-            projectName.innerHTML = data.items[index].name;
-            ownerName.innerHTML = data.items[index].owner.login;
-            starsCount.innerHTML = data.items[index].stargazers_count + ' stars';
-            inpuT.value = data.items[index].name;
+            let pinkSec = document.getElementById('pinkSection');
+            let div1 = document.createElement('div')
+            div1.classList.add('newDiv1')
+            let div = document.createElement('div')
+            div.classList.add('newDiv')
+
+            let p1 = document.createElement('p'),
+                p2 = document.createElement('p'),
+                p3 = document.createElement('p')
+            p1.innerHTML = `NAME: ${data.items[index].name}`
+            p2.innerHTML = `OWNER: ${data.items[index].owner.login}`
+            p3.innerHTML = `STARS: ${data.items[index].stargazers_count} stars`
+
+            let img = document.createElement('img')
+            img.src="imgs/cross-svgrepo-com.svg"
+            img.onclick=clickRemove
+
+            div.appendChild(p1)
+            div.appendChild(p2)
+            div.appendChild(p3)
+
+            div1.appendChild(div)
+            div1.appendChild(img)
+
+            pinkSec.appendChild(div1)
         })
         .catch(err => console.log(err));
 }
@@ -69,4 +95,21 @@ pushBtn5.addEventListener('click',function (){
     fetchElement(reposName, 4);
 })
 //------------------------------------------------------fetch1
+
+// let pinkSec = document.getElementById('pinkSection');
+// let div = document.createElement('div')
+// div.classList.add('newDiv')
+//
+// let p1 = document.createElement('p'),
+//     p2 = document.createElement('p'),
+//     p3 = document.createElement('p')
+// p1.innerHTML = 'NAME:'
+// p2.innerHTML = 'OWNER:'
+// p3.innerHTML = 'STARS:'
+//
+// div.appendChild(p1)
+// div.appendChild(p2)
+// div.appendChild(p3)
+//
+// pinkSec.appendChild(div)
 
